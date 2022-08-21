@@ -1,4 +1,15 @@
 let cards;
+let type = [ "1", "2", "3", "4", "5", "6", "7", "1", "2", "3", "4", "5", "6", "7"];
+let cardsCounter = 0;
+let card1;
+let card2;
+let hits = 0;
+
+type.sort(comparador);
+
+function comparador() { 
+	return Math.random() - 0.5; 
+}
 
 function start() {
     cards = prompt ('How many cards do you want to play with? (min. 4 max. 14)');
@@ -24,8 +35,8 @@ function addCards(){
 
     for (let counter = 0; cards > counter; counter++) {
         let item = `
-            <div class="cards" onclick="toTurn(this)">
-                <img class="turned hide" src="./source/img/explodyparrot.gif">
+            <div class="cards" onclick="toTurn(this, ${type[counter]})">
+                <img class="turned hide" src="./source/img/${type[counter]}.gif">
                 <img class="parrot" src="./source/img/front.png">
             </div>
         `;
@@ -34,13 +45,44 @@ function addCards(){
 }
 addCards()
 
+let turned;
+let change;
+
 function toTurn(card) {
-    const selected = card;
-    selected.classList.toggle("card-turned");    
+       
+    if (card1 === undefined && card2 === undefined) {
+        card1 = card;
+        card1.classList.add("card-turned");
+        turned = card1.querySelector (".cards .turned");
+        change = card1.querySelector (".parrot");
+        turned.classList.remove("hide");
+        change.classList.add("hide");
+        cardsCounter++;
 
-    const turned = selected.querySelector (".cards .turned");
-    const change = selected.querySelector (".parrot");
+    } else if (card2 === undefined) {
+        card2 = card;
+        card2.classList.add("card-turned");
+        turned = card2.querySelector (".cards .turned");
+        change = card2.querySelector (".parrot");
+        turned.classList.remove("hide");
+        change.classList.add("hide");
+        cardsCounter++;       
 
-    turned.classList.toggle("hide");
-    change.classList.toggle("hide");
+        if (card1 !== card2) {
+            card1.classList.remove("card-turned");
+            
+        } else {
+
+        }
+    } 
+    console.log(cardsCounter);
+    console.log(card1);
+    console.log(card2);
+    check();
+}
+
+function check() {
+    const selectedCards = document.querySelectorAll(".card-turned");
+
+    
 }
