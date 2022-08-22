@@ -40,7 +40,18 @@ body {
     transform: rotateY(180deg);
 }
 
+.turned {
+    transition: all 1s linear;
+    transform: rotateY(180deg);
+}
+
+.parrot {
+    transition: all 1s linear;
+    transform: rotateY(180deg);
+}
+
 .cards img {
+    transition: all 1s linear;
     width: 100px;
     height: 100px;
 }

@@ -1,15 +1,10 @@
 let cards;
-let type = [ "1", "2", "3", "4", "5", "6", "7", "1", "2", "3", "4", "5", "6", "7"];
+let type = [];
 let cardsCounter = 0;
 let card1;
 let card2;
 let hits = 0;
-
-type.sort(comparador);
-
-function comparador() { 
-	return Math.random() - 0.5; 
-}
+let game;
 
 function start() {
     cards = prompt ('How many cards do you want to play with? (min. 4 max. 14)');
@@ -26,11 +21,21 @@ function start() {
             start();
         }
     }
+
+    for (let counter = 0; cards/2 > counter; counter++) {
+        type.push(`${counter}`);
+        type.push(`${counter}`);
+        type.sort(comparador);
+    }
 }
 start()
 
+function comparador() { 
+	return Math.random() - 0.5; 
+}
+
 function addCards(){
-    const game = document.querySelector(".game");
+    game = document.querySelector(".game");
     game.innerHTML = "";
 
     for (let counter = 0; cards > counter; counter++) {
@@ -45,44 +50,67 @@ function addCards(){
 }
 addCards()
 
-let turned;
-let change;
+let turned1;
+let change1;
+let turned2;
+let change2;
 
 function toTurn(card) {
        
     if (card1 === undefined && card2 === undefined) {
         card1 = card;
         card1.classList.add("card-turned");
-        turned = card1.querySelector (".cards .turned");
-        change = card1.querySelector (".parrot");
-        turned.classList.remove("hide");
-        change.classList.add("hide");
-        cardsCounter++;
+        turned1 = card1.querySelector (".cards .turned");
+        change1 = card1.querySelector (".parrot");
+        turned1.classList.remove("hide");
+        change1.classList.add("hide");
 
     } else if (card2 === undefined) {
         card2 = card;
         card2.classList.add("card-turned");
-        turned = card2.querySelector (".cards .turned");
-        change = card2.querySelector (".parrot");
-        turned.classList.remove("hide");
-        change.classList.add("hide");
-        cardsCounter++;       
-
-        if (card1 !== card2) {
-            card1.classList.remove("card-turned");
-            
-        } else {
-
-        }
-    } 
-    console.log(cardsCounter);
-    console.log(card1);
-    console.log(card2);
-    check();
+        turned2 = card2.querySelector (".cards .turned");
+        change2 = card2.querySelector (".parrot");
+        turned2.classList.remove("hide");
+        change2.classList.add("hide");
+        cardsCounter++;
+        const myTimeout = setTimeout(check, 1000);
+    }
 }
 
 function check() {
-    const selectedCards = document.querySelectorAll(".card-turned");
 
+    if (card1.innerHTML !== card2.innerHTML) {
+        const virar1 = card1;
+        virar1.classList.remove("card-turned");
+        const virar2 = card2;
+        virar2.classList.remove("card-turned");
+        turned1.classList.add("hide");
+        change1.classList.remove("hide");
+        turned2.classList.add("hide");
+        change2.classList.remove("hide");
+        card1 = undefined;
+        card2 = undefined;
+    } else if (card1.innerHTML === card2.innerHTML) {
+        hits++;
+        card1 = undefined;
+        card2 = undefined;
+        end();
+    }
     
+}
+
+function end() {
+    if (hits === cards/2) {
+        alert(`You won in ${cardsCounter} moves!`);
+        const endGame = prompt ("Do you want to play again?")
+    }
+    if (endGame === "yes" || "sim") {
+        reset();
+    }
+}
+
+function reset() {
+    cards = null;
+    game.innerHTML = "";
+    start();
 }
