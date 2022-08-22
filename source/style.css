@@ -25,42 +25,42 @@ body {
 .cards {
     background-color: #A7E9AF;
     width: 117px;
-    height: 146px;;
+    height: 146px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 17px;
-    border-radius: 5px;
     box-sizing: border-box;
-    transition: all 1s linear;
+    position: relative;
+    transition: all 1s;
+    transform-style: preserve-3d;
+}
+
+.face {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: auto;
+    left: auto;
+    backface-visibility: hidden;
 }
 
 .card-turned {
-    transition: all 1s linear;
     transform: rotateY(180deg);
 }
 
 .turned {
-    transition: all 1s linear;
-    transform: rotateY(180deg);
-}
-
-.parrot {
-    transition: all 1s linear;
-    transform: rotateY(180deg);
+    transform: rotateY(-180deg);
 }
 
 .cards img {
-    transition: all 1s linear;
     width: 100px;
     height: 100px;
 }
-
-.hide {
-    display: none;
-}
-
-
 
 @media (max-width: 935px) {
     .header {

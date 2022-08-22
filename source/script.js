@@ -25,12 +25,12 @@ function start() {
     for (let counter = 0; cards/2 > counter; counter++) {
         type.push(`${counter}`);
         type.push(`${counter}`);
-        type.sort(comparador);
+        type.sort(comparator);
     }
 }
 start()
 
-function comparador() { 
+function comparator() { 
 	return Math.random() - 0.5; 
 }
 
@@ -41,8 +41,8 @@ function addCards(){
     for (let counter = 0; cards > counter; counter++) {
         let item = `
             <div class="cards" onclick="toTurn(this, ${type[counter]})">
-                <img class="turned hide" src="./source/img/${type[counter]}.gif">
-                <img class="parrot" src="./source/img/front.png">
+                <img class="turned face" src="./source/img/${type[counter]}.gif">
+                <img class="parrot face" src="./source/img/front.png">
             </div>
         `;
         game.innerHTML = game.innerHTML + item;
@@ -60,18 +60,10 @@ function toTurn(card) {
     if (card1 === undefined && card2 === undefined) {
         card1 = card;
         card1.classList.add("card-turned");
-        turned1 = card1.querySelector (".cards .turned");
-        change1 = card1.querySelector (".parrot");
-        turned1.classList.remove("hide");
-        change1.classList.add("hide");
 
     } else if (card2 === undefined) {
         card2 = card;
         card2.classList.add("card-turned");
-        turned2 = card2.querySelector (".cards .turned");
-        change2 = card2.querySelector (".parrot");
-        turned2.classList.remove("hide");
-        change2.classList.add("hide");
         cardsCounter++;
         const myTimeout = setTimeout(check, 1000);
     }
@@ -84,10 +76,6 @@ function check() {
         virar1.classList.remove("card-turned");
         const virar2 = card2;
         virar2.classList.remove("card-turned");
-        turned1.classList.add("hide");
-        change1.classList.remove("hide");
-        turned2.classList.add("hide");
-        change2.classList.remove("hide");
         card1 = undefined;
         card2 = undefined;
     } else if (card1.innerHTML === card2.innerHTML) {
@@ -96,21 +84,30 @@ function check() {
         card2 = undefined;
         end();
     }
-    
 }
 
 function end() {
+    let endGame;
     if (hits === cards/2) {
         alert(`You won in ${cardsCounter} moves!`);
-        const endGame = prompt ("Do you want to play again?")
-    }
-    if (endGame === "yes" || "sim") {
-        reset();
+        setTimeout(playAgain, 1000);
     }
 }
 
+function playAgain () {
+    endGame = prompt ("Do you want to play again?");
+
+    if (endGame === "yes" || "sim") {
+        reset();
+    }
+} 
+
 function reset() {
     cards = null;
+    hits = 0;
+    cardsCounter = 0;
     game.innerHTML = "";
+    type = [];
     start();
+    addCards();
 }
